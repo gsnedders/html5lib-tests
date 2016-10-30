@@ -8,7 +8,7 @@ import sys
 from collections import Counter, OrderedDict
 from os.path import dirname, join, pardir, relpath
 
-from funcparserlib.parser import NoParseError
+from ._vendor.funcparserlib.parser import NoParseError
 
 from . import parser
 
@@ -153,10 +153,16 @@ def lint_tree_construction_test(path):
     parsed = lint_dat_format(path, "utf-8", "data")
     if not parsed:
         return
+    seen = set()
     for test in parsed:
         if not is_subsequence(list(test.keys()), ["data", "errors", "document-fragment",
                                                   "script-off", "script-on", "document"]):
             print("unexpected test headings %r in %s" % (test.keys(), path))
+            continue
+        items = tuple(test.items())
+        if items in seen:
+            print("Duplicate test %r in %s" % (items, path))
+        seen.add(items)
 
 
 def lint_tree_construction_tests(path):
@@ -167,7 +173,11 @@ def lint_tree_construction_tests(path):
             lint_tree_construction_test(clean_path(join(root, file)))
 
 
-if __name__ == "__main__":
+def main():
     lint_encoding_tests(join(base, "encoding"))
     lint_tokenizer_tests(join(base, "tokenizer"))
     lint_tree_construction_tests(join(base, "tree-construction"))
+
+
+if __name__ == "__main__":
+    main()

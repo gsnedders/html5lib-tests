@@ -1,2 +1,3 @@
-#!/bin/sh
-python -m lint_lib.lint
+#!/usr/bin/env python
+import lint_lib.lint as lint
+lint.main()

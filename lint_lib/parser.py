@@ -2,9 +2,9 @@ from __future__ import unicode_literals
 
 import re
 
-from funcparserlib.lexer import Token, LexerError
-from funcparserlib.parser import (Parser, State, NoParseError,
-                                  finished, many, pure, skip, some)
+from ._vendor.funcparserlib.lexer import Token, LexerError
+from ._vendor.funcparserlib.parser import (Parser, State, NoParseError,
+                                           finished, many, pure, skip, some)
 
 text_type = type("")
 binary_type = type(b"")
